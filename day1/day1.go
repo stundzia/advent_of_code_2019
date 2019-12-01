@@ -9,19 +9,18 @@ func ModuleFuelReq(mass int) int {
 	return mass / 3 - 2
 }
 
-func ModuleFuelReqFull(mass int) int {
-	sum := 0
+func ModuleFuelReqFull(mass int) (totalFuel int) {
 	currentMass := mass
 	for ;; {
 		n := ModuleFuelReq(currentMass)
 		if n > 0 {
-			sum += n
+			totalFuel += n
 			currentMass = n
 		} else {
 			break
 		}
 	}
-	return sum
+	return totalFuel
 }
 
 func DoSilver() {
