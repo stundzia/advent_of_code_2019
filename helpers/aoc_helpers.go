@@ -38,7 +38,7 @@ func LoadInputAsStringSlice(day int, sep string) []string {
 func LoadInputAsIntSlice(day int, sep string) []int {
 	res := []int{}
 	input := LoadInputTxtFromFile(day)
-	strs := strings.Split(input, "\n")
+	strs := strings.Split(input, sep)
 	for _, str := range strs {
 		num, err := strconv.Atoi(str)
 		FailOnError(err, "loading input as ints failed")
