@@ -72,7 +72,7 @@ func (wires *WirePool) FindLeastStepsCrossed() (res [2]int, steps int) {
 	return res, steps + 2
 }
 
-func (wires *WirePool) FindClosestIntersection() int {
+func (wires *WirePool) FindClosestIntersection() [2]int {
 	intersections := wires.FindAllIntersections()
 	// Might be silly but avoids an extra check per iteration.
 	closest := 99999999
@@ -81,6 +81,19 @@ func (wires *WirePool) FindClosestIntersection() int {
 		if dist < closest {
 			closest = dist
 		}
+		return c
 	}
-	return closest
+	return [2]int{0,0}
+}
+
+func (wires *WirePool) FindClosestIntersectionDistance() int {
+	closest := wires.FindClosestIntersection()
+	dist := int(math.Abs(float64(closest[0])) + math.Abs(float64(closest[1])))
+	return dist
+}
+
+func (wire *Wire) ExecuteWiringPlan(plan []string) {
+	for _, action := range plan {
+		wire.LayFromString(action)
+	}
 }
