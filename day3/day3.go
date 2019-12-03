@@ -14,12 +14,14 @@ func DoSilver() {
 	wireTwoCommands := strings.Split(wireLine2, ",")
 	wiremap := &WirePool{}
 	wire1 := &Wire{
-		Id:          1,
-		CurrentCoords: [2]int{0,0},
+		Id:                 1,
+		CurrentCoordsSteps: [3]int{0,0,0},
+		VisitedCoords: map[[2]int]int{},
 	}
 	wire2 := &Wire{
-		Id:          2,
-		CurrentCoords: [2]int{0,0},
+		Id:                 2,
+		CurrentCoordsSteps: [3]int{0,0,0},
+		VisitedCoords: map[[2]int]int{},
 	}
 	wiremap.Wires = []*Wire{
 		wire1,
@@ -31,7 +33,7 @@ func DoSilver() {
 	for _, cmd := range wireTwoCommands {
 		wire2.LayFromString(cmd)
 	}
-	fmt.Println("Solution: ", wiremap.FindClosestIntersection())
+	fmt.Println("Solution: ", wiremap.FindClosestIntersectionDistance())
 }
 
 func DoGold() {
@@ -42,12 +44,14 @@ func DoGold() {
 	wireTwoCommands := strings.Split(wireLine2, ",")
 	wiremap := &WirePool{}
 	wire1 := &Wire{
-		Id:          1,
-		CurrentCoords: [2]int{0,0},
+		Id:                 1,
+		CurrentCoordsSteps: [3]int{0,0,0},
+		VisitedCoords: map[[2]int]int{},
 	}
 	wire2 := &Wire{
-		Id:          2,
-		CurrentCoords: [2]int{0,0},
+		Id:                 2,
+		CurrentCoordsSteps: [3]int{0,0,0},
+		VisitedCoords: map[[2]int]int{},
 	}
 	wiremap.Wires = []*Wire{
 		wire1,
