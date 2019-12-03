@@ -31,7 +31,7 @@ func DoSilver() {
 	for _, cmd := range wireTwoCommands {
 		wire2.LayFromString(cmd)
 	}
-	fmt.Println("Solution: ", wiremap.FindClosestCrossed())
+	fmt.Println("Solution: ", wiremap.FindClosestIntersection())
 }
 
 func DoGold() {

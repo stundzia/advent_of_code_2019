@@ -45,7 +45,7 @@ func (wire *Wire) LayFromString(str string) {
 	wire.Lay(direction, distance)
 }
 
-func (wires *WirePool) FindAllWithCrossed() (res [][2]int) {
+func (wires *WirePool) FindAllIntersections() (res [][2]int) {
 	for _, visited := range wires.Wires[0].VisitedCoords {
 		for _, visited2 := range wires.Wires[1].VisitedCoords {
 			if visited == visited2 {
@@ -72,11 +72,11 @@ func (wires *WirePool) FindLeastStepsCrossed() (res [2]int, steps int) {
 	return res, steps + 2
 }
 
-func (wires *WirePool) FindClosestCrossed() int {
-	crossed := wires.FindAllWithCrossed()
+func (wires *WirePool) FindClosestIntersection() int {
+	intersections := wires.FindAllIntersections()
 	// Might be silly but avoids an extra check per iteration.
 	closest := 99999999
-	for _, c := range crossed {
+	for _, c := range intersections {
 		dist := int(math.Abs(float64(c[0])) + math.Abs(float64(c[1])))
 		if dist < closest {
 			closest = dist
