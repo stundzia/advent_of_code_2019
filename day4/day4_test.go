@@ -37,14 +37,17 @@ func TestIsValid(t *testing.T) {
 }
 
 func TestIsValid2(t *testing.T) {
-	if IsValid2(111111) {
-		t.Errorf("111111 should be invalid")
-	}
 	if !IsValid2(1278899) {
 		t.Errorf("1278899 should be valid")
 	}
 	if !IsValid2(111122) {
 		t.Errorf("111122 should be valid")
+	}
+	if !IsValid2(111233) {
+		t.Errorf("111233 should be valid")
+	}
+	if IsValid2(111111) {
+		t.Errorf("111111 should be invalid")
 	}
 	if IsValid2(223450) {
 		t.Errorf("223450 should be invalid")
