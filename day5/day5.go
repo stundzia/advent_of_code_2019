@@ -57,7 +57,7 @@ func Run(opcodes []int) int {
 Main:
 	for i := 0; i < len(opcodes); {
 		op, mode1, mode2, _ := ParseOperation(opcodes[i])
-		if op <= 2 || op > 4 {
+		if op <= 2 || (op > 4 && op < 90) {
 			if mode1 == 0 {
 				param1 = opcodes[opcodes[i+1]]
 			} else {
@@ -84,10 +84,6 @@ Main:
 			i += 2
 		case 4:
 			fmt.Println(opcodes[opcodes[i+1]])
-			// TODO: for some reason the first output in part 1 is 3 (should be 0). Solution is correct, though.
-			if opcodes[opcodes[i+1]] > 10000 {
-				break Main
-			}
 			i += 2
 		case 5:
 			if param1 != 0 {
