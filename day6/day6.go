@@ -36,5 +36,5 @@ func DoGold() {
 	}
 	location := space.GetObjectByName("YOU")
 	destination := space.GetObjectByName("SAN")
-	fmt.Println("Solution: ", space.GetShortestPath(location, destination)) // Not 175
+	fmt.Println("Solution: ", space.GetShortestPath(location, destination))
 }
