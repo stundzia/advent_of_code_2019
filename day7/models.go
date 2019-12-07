@@ -65,5 +65,4 @@ func (amps *Amps) RunAll(phaseSettings [] int) {
 		amps.MaxOutput = amps.AmpE.Output
 		amps.MaxPhaseSettings = phaseSettings
 	}
-	fmt.Println(amps.MaxPhaseSettings, " : ", amps.MaxOutput)
 }

@@ -5,7 +5,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -177,8 +176,7 @@ func DoSilver() {
 			}
 		}
 	}
-	sort.Ints(amps.Outputs)
-	fmt.Println(amps.Outputs)
+	fmt.Println(amps.MaxPhaseSettings, " : ", amps.MaxOutput)
 	fmt.Println("^^ Solution above ^^") // Not 526307796
 	// Alt: 12214399 is too high
 }
