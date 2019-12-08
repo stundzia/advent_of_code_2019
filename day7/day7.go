@@ -160,13 +160,13 @@ func DoSilver() {
 		Id:     "E",
 		Output: 0,
 	}
+	// TODO: refactor
 	for i1 := 0; i1 < 5; i1++ {
 		for i2 := 0; i2 < 5; i2++ {
 			for i3 := 0; i3 < 5; i3++ {
 				for i4 := 0; i4 < 5; i4++ {
 					for i5 := 0; i5 < 5; i5++ {
-						// TODO: refactor
-						if (i1 == i2) || (i3 == i4) || (i4 == i5) || (i2 == i4) || (i1 == i5) || (i1 == i3) || (i2 == i5) || (i1 == i4) || (i2 == i3) || (i3 == i5) {
+						if !helpers.AllIntsUnique([]int{i1,i2,i3,i4,i5}) {
 							continue
 						}
 						amps.ProgramOpcodes = helpers.LoadInputAsIntSlice(7, ",")
@@ -192,8 +192,7 @@ func DoGold() {
 			for i3 := 5; i3 < 10; i3++ {
 				for i4 := 5; i4 < 10; i4++ {
 					for i5 := 5; i5 < 10; i5++ {
-						// TODO: refactor
-						if (i1 == i2) || (i3 == i4) || (i4 == i5) || (i2 == i4) || (i1 == i5) || (i1 == i3) || (i2 == i5) || (i1 == i4) || (i2 == i3) || (i3 == i5) {
+						if !helpers.AllIntsUnique([]int{i1,i2,i3,i4,i5}) {
 							continue
 						}
 						amps.RunAll2([]int{i1,i2,i3,i4,i5})
