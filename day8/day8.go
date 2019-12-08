@@ -34,8 +34,6 @@ func InputToImage2DSlice(rows int, cols int, input []int) (res [][]int) {
 
 func DoSilver() {
 	input := helpers.LoadInputAsIntSlice(8, "")
-	//fmt.Println(len(input))
-	//InputToImage2DSlice(6, 26, input)
 	img := &Image{
 		Rows:6,
 		Cols:25,
@@ -49,6 +47,16 @@ func DoSilver() {
 
 
 func DoGold() {
-	//input := helpers.LoadInputAsIntSlice(8, "")
-	//fmt.Println("Solution:", input)
+	input := helpers.LoadInputAsIntSlice(8, "")
+	img := &Image{
+		Rows:6,
+		Cols:25,
+	}
+	img.InitFromIntSlice(input)
+	img.DecodeThisBitch()
+	// Fuck it, I;m drunk and cba, I'll read is as ints
+	for _, l := range img.Decoded {
+		fmt.Println(l)
+	}
+	fmt.Println("Solution:")
 }

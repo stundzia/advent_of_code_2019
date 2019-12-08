@@ -6,6 +6,7 @@ type Image struct {
 	Layers []*Layer
 	Rows int
 	Cols int
+	Decoded [][]int
 }
 
 type Layer struct {
@@ -62,4 +63,34 @@ func (image *Image) FewestCountOfValueLayer(val int) (res *Layer) {
 		}
 	}
 	return res
+}
+
+func (image *Image) DecodeThisBitch()  {
+	res := [][]int{}
+	for _, r := range image.Layers[len(image.Layers) - 1].Rows {
+		res = append(res, r.Pixels)
+	}
+	for i := len(image.Layers) - 1; i >= 0; i-- {
+		for t, r := range image.Layers[i].Rows {
+			for pI, p := range r.Pixels {
+				if p != 2 {
+					res[t][pI] = p
+				}
+			}
+		}
+	}
+	image.Decoded = res
+}
+
+func (image *Image) PrintThisBitch() {
+	lines := [][]string{}
+	for i, d := range image.Decoded {
+		for _, p := range d {
+			switch p {
+			case 0:
+				lines[i] = append(lines[i], " ")
+			}
+
+		}
+	}
 }

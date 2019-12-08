@@ -30,6 +30,14 @@ func LoadInputTxtFromFile(dayNum int) string {
 }
 
 
+func AllIntsUnique(ints []int) bool {
+	mm := map[int]struct{}{}
+	for _, i := range ints {
+		mm[i] = struct{}{}
+	}
+	return len(mm) == len(ints)
+}
+
 func LoadInputAsStringSlice(day int, sep string) []string {
 	input := LoadInputTxtFromFile(day)
 	return strings.Split(input, "\n")
