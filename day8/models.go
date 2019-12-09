@@ -47,10 +47,6 @@ func (image *Image) InitFromIntSlice(intSlice []int) {
 	for _, la := range layers {
 		image.ParseLayer(la)
 	}
-	//fmt.Println(image.Layers)
-	//for _, lay := range image.Layers {
-	//	fmt.Println(lay.Rows[0])
-	//}
 }
 
 func (image *Image) FewestCountOfValueLayer(val int) (res *Layer) {

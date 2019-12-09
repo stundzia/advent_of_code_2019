@@ -17,21 +17,6 @@ func IntSliceValueCountMap(intSlice []int) map[int]int {
 	return res
 }
 
-func InputToImage2DSlice(rows int, cols int, input []int) (res [][]int) {
-	c := 0
-	for row := 0; row < rows; rows++ {
-		for col := 0; col < cols; col++ {
-			if col == 0 {
-				res = append(res, []int{input[c]})
-			} else {
-				res[row] = append(res[row], input[c])
-			}
-			c++
-		}
-	}
-	return res
-}
-
 func DoSilver() {
 	input := helpers.LoadInputAsIntSlice(8, "")
 	img := &Image{
@@ -40,7 +25,6 @@ func DoSilver() {
 	}
 	img.InitFromIntSlice(input)
 	l := img.FewestCountOfValueLayer(0)
-	fmt.Println(l)
 	mm := IntSliceValueCountMap(l.Pixels())
 	fmt.Println("Solution:", mm[1] * mm[2])
 }
@@ -54,9 +38,8 @@ func DoGold() {
 	}
 	img.InitFromIntSlice(input)
 	img.DecodeThisBitch()
-	// Fuck it, I;m drunk and cba, I'll read is as ints
+	fmt.Println("Solution:")
 	for _, l := range img.Decoded {
 		fmt.Println(l)
 	}
-	fmt.Println("Solution:")
 }
