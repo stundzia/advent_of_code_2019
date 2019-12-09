@@ -8,22 +8,22 @@ import (
 )
 
 type Amps struct {
-	AmpA *Amp
-	AmpB *Amp
-	AmpC *Amp
-	AmpD *Amp
-	AmpE *Amp
-	ProgramOpcodes []int
-	MaxOutput int
+	AmpA             *Amp
+	AmpB             *Amp
+	AmpC             *Amp
+	AmpD             *Amp
+	AmpE             *Amp
+	ProgramOpcodes   []int
+	MaxOutput        int
 	MaxPhaseSettings []int
-	Outputs []int
+	Outputs          []int
 }
 
 type Amp struct {
-	Pool *Amps
-	Id string
-	Output int
-	InputAmp *Amp
+	Pool          *Amps
+	Id            string
+	Output        int
+	InputAmp      *Amp
 	OutputChannel chan int
 }
 
@@ -52,7 +52,7 @@ func (amp *Amp) Run(phaseSetting int) {
 	amp.Output = Run(opcodes, phaseSetting, lastOutput)
 }
 
-func (amps *Amps) RunAll(phaseSettings [] int) {
+func (amps *Amps) RunAll(phaseSettings []int) {
 	if len(phaseSettings) != 5 {
 		fmt.Println("Bad phase setting count")
 		return
@@ -70,45 +70,45 @@ func (amps *Amps) RunAll(phaseSettings [] int) {
 	}
 }
 
-func (amps *Amps) InitAmps()  {
+func (amps *Amps) InitAmps() {
 	amps.AmpA = &Amp{
-		Pool:   amps,
-		Id:     "A",
-		Output: 0,
+		Pool:          amps,
+		Id:            "A",
+		Output:        0,
 		OutputChannel: make(chan int, 5),
 	}
 	amps.AmpB = &Amp{
-		Pool:   amps,
-		Id:     "B",
-		Output: 0,
+		Pool:          amps,
+		Id:            "B",
+		Output:        0,
 		OutputChannel: make(chan int, 5),
-		InputAmp: amps.AmpA,
+		InputAmp:      amps.AmpA,
 	}
 	amps.AmpC = &Amp{
-		Pool:   amps,
-		Id:     "C",
-		Output: 0,
+		Pool:          amps,
+		Id:            "C",
+		Output:        0,
 		OutputChannel: make(chan int, 5),
-		InputAmp: amps.AmpB,
+		InputAmp:      amps.AmpB,
 	}
 	amps.AmpD = &Amp{
-		Pool:   amps,
-		Id:     "D",
-		Output: 0,
+		Pool:          amps,
+		Id:            "D",
+		Output:        0,
 		OutputChannel: make(chan int, 5),
-		InputAmp: amps.AmpC,
+		InputAmp:      amps.AmpC,
 	}
 	amps.AmpE = &Amp{
-		Pool:   amps,
-		Id:     "E",
-		Output: 0,
+		Pool:          amps,
+		Id:            "E",
+		Output:        0,
 		OutputChannel: make(chan int, 5),
-		InputAmp: amps.AmpD,
+		InputAmp:      amps.AmpD,
 	}
 	amps.AmpA.InputAmp = amps.AmpE
 }
 
-func (amps *Amps) RunAll2(phaseSettings [] int) {
+func (amps *Amps) RunAll2(phaseSettings []int) {
 	amps.InitAmps() // Clear potential channel cross contamination
 	if len(phaseSettings) != 5 {
 		fmt.Println("Bad phase setting count")
@@ -173,7 +173,7 @@ Main:
 					i += 2
 					continue
 				}
-				inp = <- amp.InputAmp.OutputChannel
+				inp = <-amp.InputAmp.OutputChannel
 				opcodes[opcodes[i+1]] = inp
 			}
 			i += 2

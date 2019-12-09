@@ -28,16 +28,16 @@ func ParseOperation(operation int) (opcode, mode1, mode2, mode3 int) {
 			fmt.Println("Invalid opcode")
 		}
 	} else {
-		opcode = digits[len(digits) - 1]
+		opcode = digits[len(digits)-1]
 	}
 	if len(digits) >= 3 {
-		mode1 = digits[len(digits) - 3]
+		mode1 = digits[len(digits)-3]
 	}
 	if len(digits) >= 4 {
-		mode2 = digits[len(digits) - 4]
+		mode2 = digits[len(digits)-4]
 	}
 	if len(digits) >= 5 {
-		mode3 = digits[len(digits) - 5]
+		mode3 = digits[len(digits)-5]
 	}
 	return opcode, mode1, mode2, mode3
 }
@@ -166,11 +166,11 @@ func DoSilver() {
 			for i3 := 0; i3 < 5; i3++ {
 				for i4 := 0; i4 < 5; i4++ {
 					for i5 := 0; i5 < 5; i5++ {
-						if !helpers.AllIntsUnique([]int{i1,i2,i3,i4,i5}) {
+						if !helpers.AllIntsUnique([]int{i1, i2, i3, i4, i5}) {
 							continue
 						}
 						amps.ProgramOpcodes = helpers.LoadInputAsIntSlice(7, ",")
-						amps.RunAll([]int{i1,i2,i3,i4,i5})
+						amps.RunAll([]int{i1, i2, i3, i4, i5})
 					}
 				}
 			}
@@ -179,11 +179,10 @@ func DoSilver() {
 	fmt.Println("Solution: ", amps.MaxOutput, " (phase settings: ", amps.MaxPhaseSettings, ")")
 }
 
-
 func DoGold() {
 	opcodes := helpers.LoadInputAsIntSlice(7, ",")
 	amps := &Amps{
-		ProgramOpcodes:   opcodes,
+		ProgramOpcodes: opcodes,
 	}
 	amps.InitAmps()
 
@@ -192,10 +191,10 @@ func DoGold() {
 			for i3 := 5; i3 < 10; i3++ {
 				for i4 := 5; i4 < 10; i4++ {
 					for i5 := 5; i5 < 10; i5++ {
-						if !helpers.AllIntsUnique([]int{i1,i2,i3,i4,i5}) {
+						if !helpers.AllIntsUnique([]int{i1, i2, i3, i4, i5}) {
 							continue
 						}
-						amps.RunAll2([]int{i1,i2,i3,i4,i5})
+						amps.RunAll2([]int{i1, i2, i3, i4, i5})
 					}
 				}
 			}
