@@ -3,6 +3,7 @@ package day11
 import (
 	"aoc2019/computer"
 	"fmt"
+	"strings"
 )
 
 type Ship struct {
@@ -28,6 +29,7 @@ type Robot struct {
 	Input chan int
 	Output chan int
 	CurrentPanel *Panel
+	Painted int
 }
 
 
@@ -85,6 +87,7 @@ func (ship *Ship) Init(opcodes []int) {
 		Computer:c,
 		Facing:"N",
 		CurrentPanel:ship.Panels[0],
+		Painted: 0,
 	}
 	ship.Robot = r
 	ship.Robot.Ship = ship
@@ -118,17 +121,14 @@ func (robot *Robot) Gogogo() {
 	go robot.Computer.Run()
 	var turn int
 	var paint int
-	for ;; {
+	for i := 0; i < 222250;i++ {
 		paint = <- robot.Input
-		// WHY THE FUCK IS FIRST OUTPUT 209?!
-		if paint > 1 {
-			paint = 0
-		}
-		fmt.Println(paint)
 		robot.CurrentPanel.Color = paint
 		robot.CurrentPanel.PaintedCount++
+		if robot.CurrentPanel.PaintedCount == 1 {
+			robot.Painted++
+		}
 		turn = <- robot.Input
-		fmt.Println(turn)
 		if turn == 0 {
 			robot.Facing = cclockwiseMap[robot.Facing]
 		}
@@ -136,5 +136,19 @@ func (robot *Robot) Gogogo() {
 			robot.Facing = clockwiseMap[robot.Facing]
 		}
 		robot.Move()
+	}
+}
+
+func (ship *Ship) PrintPanels(maxX, maxY int) {
+	for y := -maxY/2; y < maxY/2; y++ {
+		line := []string{}
+		for x := -maxX/2; x < maxX/2; x++ {
+			if ship.GetPanel(x,y).Color == 0 {
+				line = append(line, ".")
+			} else {
+				line = append(line, "#")
+			}
+		}
+		fmt.Println(strings.Join(line, ""))
 	}
 }
