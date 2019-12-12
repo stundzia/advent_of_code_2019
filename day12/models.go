@@ -1,7 +1,5 @@
 package day12
 
-import "fmt"
-
 type Orbit struct {
 	Moons []*Moon
 }

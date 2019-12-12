@@ -12,7 +12,6 @@ func DoSilver() {
 	potential := 0
 	total := 0
 	for _, m := range orbit.Moons {
-		fmt.Println(m)
 		kinetic += m.KineticEnergy()
 		potential += m.PotentialEnergy()
 		total += m.TotalEnergy()

@@ -1,14 +1,12 @@
 package day12
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestFull(t *testing.T) {
 	orbit := Orbit{}
 	orbit.Init()
-	fmt.Println(orbit.Moons[0].Name)
 	orbit.Moons[0].X = -8
 	orbit.Moons[0].Y = -10
 	orbit.Moons[0].Z = 0
