@@ -14,6 +14,8 @@ type Game struct {
 	BallDirectionY int
 	BallX int
 	BallY int
+	BallSwitchLeft bool
+	BallSwitchRight bool
 	PaddleX int
 	Score int
 }
@@ -33,6 +35,25 @@ func (game *Game) AddTile(x, y, blockType int) {
 		game.BallX = x
 		game.BallDirectionY = y - game.BallY
 		game.BallY = y
+		if game.JoystickXPosition() < x {
+			game.Computer.InputChannel <- 1
+		}
+		if game.JoystickXPosition() > x {
+			game.Computer.InputChannel <- -1
+		}
+		if game.JoystickXPosition() == x {
+			game.Computer.InputChannel <- 0
+		}
+	}
+	if tile != nil && tile.Type == 2 && blockType == 0 {
+		if game.BallX < tile.Coordinates[0] {
+			game.BallSwitchLeft = true
+			game.BallSwitchRight = false
+		}
+		if game.BallX > tile.Coordinates[0] {
+			game.BallSwitchRight = true
+			game.BallSwitchLeft = false
+		}
 	}
 	if tile != nil {
 		tile.Type = blockType
@@ -72,41 +93,12 @@ func (game *Game) BallXPosition() int {
 }
 
 func (game *Game) GetJoystickMove() int {
-	var goingUp bool
-	if game.BallDirectionY == -1 {
-		goingUp = true
-	}
-	fmt.Println("going up? ", goingUp)
 	diffBallXMPaddleX := game.BallX - game.PaddleX
-	fmt.Println("balldx: ", game.BallDirectionX)
-	fmt.Println("diff: ", diffBallXMPaddleX)
-	if diffBallXMPaddleX == -1 && game.BallDirectionX >= 1 {
-		return 0
-	}
-	if diffBallXMPaddleX == 1 && game.BallDirectionX == -1 {
-		return 0
-	}
-	if diffBallXMPaddleX > 1 {
+	if diffBallXMPaddleX >= 1 {
 		return 1
 	}
-	if diffBallXMPaddleX < -1 {
+	if diffBallXMPaddleX <= -1 {
 		return -1
-	}
-	if game.PaddleX > game.BallX && game.BallDirectionX != 1 {
-		// Paddle right of ball
-		return -1
-	}
-	if game.BallX > game.PaddleX && game.BallDirectionX != -1{
-		// Paddle left of ball
-		return 1
-	}
-	if game.BallDirectionX == -1 && !goingUp {
-		// going left and down
-		return -1
-	}
-	if game.BallDirectionX == 1 && !goingUp {
-		// going right and down
-		return 1
 	}
 	return 0
 }
@@ -144,29 +136,28 @@ func (game *Game) Init() {
 		// For slower machines
 		time.Sleep(1 * time.Second)
 	}
-	var i int
 	for ;game.Computer.Running; {
 		if initDone {
 			if game.JoystickXPosition() != -1 && game.BallXPosition() != -1 {
 				game.DrawScreen(43, 19)
 			}
 		}
-		time.Sleep(55 * time.Microsecond)
 		x = <- game.Computer.OutputChannel
 		y = <- game.Computer.OutputChannel
 		blockType = <- game.Computer.OutputChannel
-		fmt.Println(x,y,blockType)
 		if x == -1 && y == 0 {
 			fmt.Println("Score: ", blockType)
 			game.Score = blockType
 		} else {
 			game.AddTile(x, y, blockType)
 		}
-		time.Sleep(55 * time.Microsecond)
-		if game.Computer.WaitingForInput {
-			i++
-			initDone = true
-			game.Computer.InputChannel <- game.GetJoystickMove()
-		}
+	}
+	// TODO: hacky
+	x = <- game.Computer.OutputChannel
+	y = <- game.Computer.OutputChannel
+	blockType = <- game.Computer.OutputChannel
+	if x == -1 && y == 0 {
+		fmt.Println("Score: ", blockType)
+		game.Score = blockType
 	}
 }
