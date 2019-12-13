@@ -13,6 +13,9 @@ type IntCodeComputer struct {
 	InputChannel chan int
 	OutputChannel chan int
 	RelativeBase int
+	Running bool
+	UseStdInput bool
+	WaitingForInput bool
 }
 
 func IntToIntSlice(num int) (res []int) {
@@ -63,6 +66,8 @@ func (c *IntCodeComputer) Run() int {
 	var param1 int
 	var param2 int
 	var val int
+	var inputNum int
+	c.Running = true
 Main:
 	for i := 0; i < len(c.Opcodes); {
 		op, mode1, mode2, mode3 := ParseOperation(c.Opcodes[i])
@@ -86,6 +91,7 @@ Main:
 		}
 		switch op {
 		case 99:
+			fmt.Println("Program halt!")
 			break Main
 		case 1:
 			if mode3 == 0 {
@@ -104,19 +110,22 @@ Main:
 			}
 			i += 4
 		case 3:
-			fmt.Println("c getting input")
-			num := <- c.InputChannel
-			fmt.Println("c got input: ", num)
+			c.WaitingForInput = true
+			if c.UseStdInput {
+				inputNum = GetIntInputFromStdIn()
+			} else {
+				inputNum = <- c.InputChannel
+			}
 			if mode1 == 0 {
-				c.Opcodes[c.Opcodes[i+1]] = num
+				c.Opcodes[c.Opcodes[i+1]] = inputNum
 			}
 			if mode1 == 2 {
-				c.Opcodes[c.Opcodes[i+1]+c.RelativeBase] = num
+				c.Opcodes[c.Opcodes[i+1]+c.RelativeBase] = inputNum
 			}
+			c.WaitingForInput = false
 			i += 2
 		case 4:
 			c.OutputChannel <- param1
-			fmt.Println("c sending output: ", param1)
 			i += 2
 		case 5:
 			if param1 != 0 {
@@ -163,5 +172,6 @@ Main:
 			break Main
 		}
 	}
+	c.Running = false
 	return c.Opcodes[0]
 }
