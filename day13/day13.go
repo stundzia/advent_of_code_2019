@@ -44,5 +44,6 @@ func DoGold() {
 		Computer: c,
 	}
 	game.Init()
+	fmt.Println("Final score: ", game.Score)
 }
 
