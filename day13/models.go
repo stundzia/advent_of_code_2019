@@ -12,10 +12,6 @@ type Game struct {
 	Computer *computer.IntCodeComputer
 	BallDirectionX int
 	BallDirectionY int
-	BallX int
-	BallY int
-	BallSwitchLeft bool
-	BallSwitchRight bool
 	PaddleX int
 	Score int
 }
@@ -31,28 +27,14 @@ func (game *Game) AddTile(x, y, blockType int) {
 		game.PaddleX = x
 	}
 	if blockType == 4 {
-		game.BallDirectionX = x - game.BallX
-		game.BallX = x
-		game.BallDirectionY = y - game.BallY
-		game.BallY = y
-		if game.JoystickXPosition() < x {
+		if game.PaddleX < x {
 			game.Computer.InputChannel <- 1
 		}
-		if game.JoystickXPosition() > x {
+		if game.PaddleX > x {
 			game.Computer.InputChannel <- -1
 		}
-		if game.JoystickXPosition() == x {
+		if game.PaddleX == x {
 			game.Computer.InputChannel <- 0
-		}
-	}
-	if tile != nil && tile.Type == 2 && blockType == 0 {
-		if game.BallX < tile.Coordinates[0] {
-			game.BallSwitchLeft = true
-			game.BallSwitchRight = false
-		}
-		if game.BallX > tile.Coordinates[0] {
-			game.BallSwitchRight = true
-			game.BallSwitchLeft = false
 		}
 	}
 	if tile != nil {
@@ -90,17 +72,6 @@ func (game *Game) BallXPosition() int {
 		}
 	}
 	return -1
-}
-
-func (game *Game) GetJoystickMove() int {
-	diffBallXMPaddleX := game.BallX - game.PaddleX
-	if diffBallXMPaddleX >= 1 {
-		return 1
-	}
-	if diffBallXMPaddleX <= -1 {
-		return -1
-	}
-	return 0
 }
 
 func (game *Game) DrawScreen(xMax, yMax int) {
